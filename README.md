@@ -21,4 +21,4 @@ With the Episode info containing:
 Shows should be able to be locked at the macro, series, season, episode level by admins (much like is done with wikipedia articles and such when things get into edit wars)
 Art to be able to be associated with each level of the Hierarchy.
 
-An API setup to allow other sites, programs, etc to scrape/pull the information to be used by others.
+An API setup to allow other sites, programs, etc to scrape/pull the information to be used by others. I'm planning to use JSON for this.
