@@ -1,10 +1,11 @@
 package tvinfo
 
+// MacroSeries - the basic structure of a MacroSeries.
 type MacroSeries struct {
-	Id          int
+	ID          int
 	Name        string
 	Series      []Series
-	Backgrounds []string //images not sure what type to put
-	Posters     []string //images not sure what type to put
-	Banners     []string //images not sure what type to put
+	Backgrounds []Image
+	Posters     []Image
+	Banners     []Image
 }

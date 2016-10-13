@@ -1,9 +1,10 @@
 package tvinfo
 
+// Season - the basic structure of a season.
 type Season struct {
-	Id        int
+	ID        int
 	Metatitle string
 	Metadesc  string
-	Poster    []string //images not sure what type to put
+	Poster    []Image
 	Episodes  []Episode
 }

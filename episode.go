@@ -1,7 +1,8 @@
 package tvinfo
 
+// Episode - the basic structure of an episode.
 type Episode struct {
-	Id             int
+	ID             int
 	Name           string
 	FirstAired     string
 	Guest          []string
@@ -9,16 +10,16 @@ type Episode struct {
 	Writer         []string
 	ProductionCode string
 	Description    string
-	Poster         []string //images not sure what type to put
-	DvdId          int
+	Poster         []Image
+	DvdID          int
 	DvdSeason      int
 	DvdEpisode     int
 	DvdChapter     int
-	BdId           int
+	BdID           int
 	BdSeason       int
 	BdEpisode      int
 	BdChapter      int
 	Absolute       int
-	ImdbId         string
+	ImdbID         string
 	IsMovie        bool
 }

@@ -1,7 +1,8 @@
 package tvinfo
 
+// Series - the basic structure of a series.
 type Series struct {
-	Id          int
+	ID          int
 	Name        string
 	Description string
 	FirstAired  string
@@ -11,7 +12,7 @@ type Series struct {
 	Genre       []string
 	Stars       []string
 	Seasons     []Season
-	Backgrounds []string //images not sure what type to put
-	Banners     []string //images not sure what type to put
-	Poster      []string //images not sure what type to put
+	Backgrounds []Image
+	Banners     []Image
+	Poster      []Image
 }
