@@ -11,15 +11,15 @@ type Episode struct {
 	ProductionCode string
 	Description    string
 	Poster         []Image
-	DvdID          int
-	DvdSeason      int
-	DvdEpisode     int
-	DvdChapter     int
-	BdID           int
-	BdSeason       int
-	BdEpisode      int
-	BdChapter      int
+	DVDID          int
+	DVDSeason      int
+	DVDEpisode     int
+	DVDChapter     int
+	BDID           int
+	BDSeason       int
+	BDEpisode      int
+	BDChapter      int
 	Absolute       int
-	ImdbID         string
+	IMDBID         string
 	IsMovie        bool
 }
