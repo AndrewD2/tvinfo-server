@@ -1,4 +1,4 @@
-package tvinfo
+package models
 
 // Episode - the basic structure of an episode.
 type Episode struct {

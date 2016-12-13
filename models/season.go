@@ -1,4 +1,4 @@
-package tvinfo
+package models
 
 // Season - the basic structure of a season.
 type Season struct {

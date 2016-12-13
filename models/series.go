@@ -1,4 +1,4 @@
-package tvinfo
+package models
 
 // Series - the basic structure of a series.
 type Series struct {

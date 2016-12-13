@@ -1,4 +1,4 @@
-package tvinfo
+package models
 
 // MacroSeries - the basic structure of a MacroSeries.
 type MacroSeries struct {
