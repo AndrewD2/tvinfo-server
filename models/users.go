@@ -29,6 +29,13 @@ type UserService interface {
 	Delete(id uint) error
 }
 
+type DatabaseService interface {
+	byQuery(querry *gorm.DB) *DatabaseService
+	Create(db *DatabaseService) error
+	Update(db *DatabaseService) error
+	Delete(id uint) error
+}
+
 type UserGorm struct {
 	*gorm.DB
 }
