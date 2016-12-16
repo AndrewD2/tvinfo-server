@@ -13,7 +13,7 @@ type Season struct {
 	Metadesc  string
 	Poster    []Image
 	Episodes  []Episode
-	EditedBy  User
+	EditedBy  uint `gorm:"ForeignKey:UserID"`
 	IsLocked  bool
 }
 
@@ -28,12 +28,8 @@ type SeasonGorm struct {
 	*gorm.DB
 }
 
-func NewSeasonGorm(connectionInfo string) (*SeasonGorm, error) {
-	db, err := gorm.Open("postgres", connectionInfo)
-	if err != nil {
-		log.Println(err)
-	}
-	return &SeasonGorm{db}, nil
+func NewSeasonGorm(db *gorm.DB) *SeasonGorm {
+	return &SeasonGorm{db}
 }
 
 func (sg *SeasonGorm) ByID(id uint) *Season {
@@ -65,4 +61,13 @@ func (sg *SeasonGorm) byQuery(query *gorm.DB) *Season {
 		log.Println(err)
 	}
 	return nil
+}
+
+func (sg *SeasonGorm) DestructiveReset() {
+	sg.DropTableIfExists(&Season{})
+	sg.AutoMigrate()
+}
+
+func (sg *SeasonGorm) AutoMigrate() {
+	sg.DB.AutoMigrate(&Season{})
 }

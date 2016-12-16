@@ -13,7 +13,7 @@ type Image struct {
 	Name        string `gorm:"not null"`
 	Description string
 	URL         string
-	AddedBy     User
+	AddedBy     uint `gorm:"ForeignKey:UserID"`
 }
 
 type ImageService interface {
@@ -27,12 +27,8 @@ type ImageGorm struct {
 	*gorm.DB
 }
 
-func NewImageGorm(connectionInfo string) (*ImageGorm, error) {
-	db, err := gorm.Open("postgres", connectionInfo)
-	if err != nil {
-		log.Println(err)
-	}
-	return &ImageGorm{db}, nil
+func NewImageGorm(db *gorm.DB) *ImageGorm {
+	return &ImageGorm{db}
 }
 
 func (ig *ImageGorm) ByID(id uint) *Image {
@@ -64,4 +60,13 @@ func (ig *ImageGorm) byQuery(query *gorm.DB) *Image {
 		log.Println(err)
 	}
 	return nil
+}
+
+func (eg *ImageGorm) DestructiveReset() {
+	eg.DropTableIfExists(&Image{})
+	eg.AutoMigrate()
+}
+
+func (eg *ImageGorm) AutoMigrate() {
+	eg.DB.AutoMigrate(&Image{})
 }

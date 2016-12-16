@@ -29,23 +29,12 @@ type UserService interface {
 	Delete(id uint) error
 }
 
-type DatabaseService interface {
-	byQuery(querry *gorm.DB) *DatabaseService
-	Create(db *DatabaseService) error
-	Update(db *DatabaseService) error
-	Delete(id uint) error
-}
-
 type UserGorm struct {
 	*gorm.DB
 }
 
-func NewUserGorm(connectionInfo string) (*UserGorm, error) {
-	db, err := gorm.Open("postgres", connectionInfo)
-	if err != nil {
-		return nil, err
-	}
-	return &UserGorm{db}, nil
+func NewUserGorm(db *gorm.DB) *UserGorm {
+	return &UserGorm{db}
 }
 
 func (ug *UserGorm) ByID(id uint) *User {

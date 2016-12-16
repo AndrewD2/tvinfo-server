@@ -14,7 +14,7 @@ type MacroSeries struct {
 	Backgrounds []Image
 	Posters     []Image
 	Banners     []Image
-	EditedBy    User
+	EditedBy    uint `gorm:"ForeignKey:UserID"`
 	IsLocked    bool
 }
 
@@ -23,10 +23,16 @@ type MacroSeriesService interface {
 	Create(ep *Episode) error
 	Update(ep *Episode) error
 	Delete(id uint) error
+	DestructiveReset()
+	AutoMigrate()
 }
 
 type MacroSeriesGorm struct {
 	*gorm.DB
+}
+
+func NewMacroSeriesGorm(db *gorm.DB) *MacroSeriesGorm {
+	return &MacroSeriesGorm{db}
 }
 
 func (mg *MacroSeriesGorm) ByID(id uint) *Episode {
@@ -57,4 +63,13 @@ func (mg *MacroSeriesGorm) byQuery(query *gorm.DB) *Episode {
 		log.Println(err)
 	}
 	return nil
+}
+
+func (mg *MacroSeriesGorm) DestructiveReset() {
+	mg.DropTableIfExists(&MacroSeries{})
+	mg.AutoMigrate()
+}
+
+func (mg *MacroSeriesGorm) AutoMigrate() {
+	mg.DB.AutoMigrate(&MacroSeries{})
 }

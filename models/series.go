@@ -2,6 +2,7 @@ package models
 
 import (
 	"log"
+	"time"
 
 	"github.com/jinzhu/gorm"
 )
@@ -9,20 +10,21 @@ import (
 // Series - the basic structure of a series.
 type Series struct {
 	gorm.Model
-	Name        string
-	Description string
-	FirstAired  string
-	AirTime     string
-	RunTime     int
-	Network     string
-	Genre       []string
-	Stars       []string
-	Seasons     []Season
-	Backgrounds []Image
-	Banners     []Image
-	Poster      []Image
-	EditedBy    User
-	IsLocked    bool
+	Name            string `gorm:"not null"`
+	Description     string
+	StartDate       time.Time
+	EndDate         time.Time
+	EpisodeDuration uint
+	NetworkID       uint
+	Genre           []Genre
+	Creator         []People
+	Actors          []People
+	SeasonID        uint
+	Backgrounds     []Image
+	Banners         []Image
+	Poster          []Image
+	EditedBy        uint `gorm:"ForeignKey:UserID"`
+	IsLocked        bool
 }
 
 type SeriesService interface {
@@ -30,18 +32,16 @@ type SeriesService interface {
 	Create(series *Series) error
 	Update(series *Series) error
 	Delete(id uint) error
+	DestructiveReset()
+	AutoMigrate()
 }
 
 type SeriesGorm struct {
 	*gorm.DB
 }
 
-func NewSeriesGorm(connectionInfo string) (*SeriesGorm, error) {
-	db, err := gorm.Open("postgres", connectionInfo)
-	if err != nil {
-		log.Println(err)
-	}
-	return &SeriesGorm{db}, nil
+func NewSeriesGorm(db *gorm.DB) *SeriesGorm {
+	return &SeriesGorm{db}
 }
 
 func (sg *SeriesGorm) ByID(id uint) *Series {
@@ -73,4 +73,12 @@ func (sg *SeriesGorm) byQuery(query *gorm.DB) *Series {
 		log.Println(err)
 	}
 	return nil
+}
+func (sg *SeriesGorm) DestructiveReset() {
+	sg.DropTableIfExists(&Series{})
+	sg.AutoMigrate()
+}
+
+func (sg *SeriesGorm) AutoMigrate() {
+	sg.DB.AutoMigrate(&Series{})
 }

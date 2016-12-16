@@ -1,4 +1,4 @@
-{{define episode}}
+{{define "yield"}}
 
 <div class="row">
     <div class="col-md-4 col-md-offset-4">
@@ -14,20 +14,29 @@
 </div>
 {{end}} 
 {{define "createEpisodeForm"}}
-<form action="/series/episode/new" method="POST">
-  <div class="form-group">
-    <label for="title">Title</label>
-    <input type="title" name="title" class="form-control" id="title" placeholder="">
+<form action="/episode/new" method="POST">
+<div class="form-group">
+    <label for="season">Season</label>
+    <input type="season" name="season" class="form-control" id="season" placeholder="">
   </div>
+  
   <div class="form-group">
     <label for="episode-num">Episode Number</label>
     <input type="episode-num" name="episode-num" class="form-control" id="episode-num" placeholder="">
   </div>
   <div class="form-group">
+    <label for="title">Title</label>
+    <input type="title" name="title" class="form-control" id="title" placeholder="">
+  </div>
+  <div class="form-group">
     <label for="first-aired">First Aired</label>
     <input type="first-aired" name="first-aired" class="form-control" id="first-aired" placeholder="">
   </div>
-  <button type="submit" class="btn btn-primary">Sign Up</button>
+  <div class="form-group">
+    <label for="description">Description</label>
+    <input type="description" name="description" class="form-control" id="description" placeholder="">
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
 </form>
 
 {{end}}

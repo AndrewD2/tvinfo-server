@@ -11,7 +11,7 @@ import (
 
 func NewEpisode(es models.EpisodeService) *Episode {
 	return &Episode{
-		NewView:        views.NewView("bootstrap", "episode/new"),
+		NewView:        views.NewView("bootstrap", "episodes/new"),
 		EpisodeService: es,
 	}
 }
@@ -39,11 +39,11 @@ func (e *Episode) Create(w http.ResponseWriter, r *http.Request) {
 		log.Println(err)
 	}
 	episode := &models.Episode{
-		EpisodeNumber:  form.EpisodeNumber,
-		Title:          form.Title,
-		FirstAired:     form.FirstAired,
-		ProductionCode: form.ProductionCode,
-		Description:    form.Description,
+		EpisodeNumber: form.EpisodeNumber,
+		Title:         form.Title,
+		FirstAired:    form.FirstAired,
+		//ProductionCode: form.ProductionCode,
+		Description: form.Description,
 	}
 	if err := e.EpisodeService.Create(episode); err != nil {
 		log.Println(err)

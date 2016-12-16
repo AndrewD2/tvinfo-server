@@ -4,18 +4,19 @@ import (
 	"log"
 
 	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/postgres"
 )
 
 // Episode - the basic structure of an episode.
 type Episode struct {
 	gorm.Model
-	Season         Season
-	EpisodeNumber  uint
-	Title          string
+	Season         uint   `gorm:"not null"` //Season
+	EpisodeNumber  uint   `gorm:"not null"`
+	Title          string `gorm:"not null"`
 	FirstAired     string
-	Guest          []string
-	Director       []string
-	Writer         []string
+	Guest          []People
+	Director       []People
+	Writer         []People
 	ProductionCode string
 	Description    string
 	Poster         []Image
@@ -30,7 +31,7 @@ type Episode struct {
 	Absolute       int
 	IMDBID         string
 	IsMovie        bool
-	EditedBy       User
+	EditedBy       uint `gorm:"ForeignKey:UserID"`
 	IsLocked       bool
 }
 
@@ -39,22 +40,28 @@ type EpisodeService interface {
 	Create(ep *Episode) error
 	Update(ep *Episode) error
 	Delete(id uint) error
+	AutoMigrate()
+	DestructiveReset()
 }
 
 type EpisodeGorm struct {
 	*gorm.DB
 }
 
+func NewEpisodeGorm(db *gorm.DB) *EpisodeGorm {
+	return &EpisodeGorm{db}
+}
+
 func (eg *EpisodeGorm) ByID(id uint) *Episode {
 	return eg.byQuery(eg.DB.Where("id=?", id))
 }
 
-func (eg *EpisodeGorm) Create(image *Image) error {
-	return eg.DB.Create(image).Error
+func (eg *EpisodeGorm) Create(episode *Episode) error {
+	return eg.DB.Create(episode).Error
 }
 
-func (eg *EpisodeGorm) Update(image *Image) error {
-	return eg.DB.Save(image).Error
+func (eg *EpisodeGorm) Update(episode *Episode) error {
+	return eg.DB.Save(episode).Error
 }
 
 func (eg *EpisodeGorm) Delete(id uint) error {
@@ -73,4 +80,13 @@ func (eg *EpisodeGorm) byQuery(query *gorm.DB) *Episode {
 		log.Println(err)
 	}
 	return nil
+}
+
+func (eg *EpisodeGorm) DestructiveReset() {
+	eg.DropTableIfExists(&Episode{})
+	eg.AutoMigrate()
+}
+
+func (eg *EpisodeGorm) AutoMigrate() {
+	eg.DB.AutoMigrate(&Episode{})
 }
