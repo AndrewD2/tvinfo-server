@@ -20,7 +20,7 @@ type Models struct {
 	*EpisodeGorm
 }
 
-func AllModels(connectionInfo string) (*Models, error) {
+func AllModels(connectionInfo string) (*Models, *gorm.DB, error) {
 	db, err := gorm.Open("postgres", connectionInfo)
 	return &Models{
 		UserGorm:        NewUserGorm(db),
@@ -33,5 +33,5 @@ func AllModels(connectionInfo string) (*Models, error) {
 		SeriesGorm:      NewSeriesGorm(db),
 		SeasonGorm:      NewSeasonGorm(db),
 		EpisodeGorm:     NewEpisodeGorm(db),
-	}, err
+	}, db, err
 }

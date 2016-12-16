@@ -26,10 +26,11 @@ func main() {
 		"password=%s dbname=%s sslmode=disable",
 		host, port, user, password, dbname)
 
-	all, err := models.AllModels(psqlInfo)
+	all, db, err := models.AllModels(psqlInfo)
 	if err != nil {
 		log.Println(err)
 	}
+	defer db.Close()
 
 	ug, ig, pg, rg, gg, ng, mg, sg, seg, eg := all.UserGorm, all.ImageGorm, all.PeopleGorm, all.RoleGorm, all.GenreGorm,
 		all.NetworkGorm, all.MacroSeriesGorm, all.SeriesGorm, all.SeasonGorm, all.EpisodeGorm
